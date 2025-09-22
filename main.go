@@ -13,7 +13,7 @@ import (
 	"github.com/firebase/genkit/go/plugins/ollama"
 	"github.com/firebase/genkit/go/plugins/server"
 	"github.com/snowmerak/useful-genkit/flows"
-	provider "github.com/snowmerak/useful-genkit/models"
+	"github.com/snowmerak/useful-genkit/models"
 	"github.com/snowmerak/useful-genkit/prompts"
 	"github.com/snowmerak/useful-genkit/tools"
 )
@@ -33,32 +33,32 @@ func main() {
 		}),
 	)
 
-	if _, err := provider.OllamaGptOss20b(g); err != nil {
+	if _, err := models.OllamaGptOss20b(g); err != nil {
 		log.Fatalf("Failed to get model: %v", err)
 	}
-	if _, err := provider.OllamaGemma3(g, 12); err != nil {
+	if _, err := models.OllamaGemma3(g, 12); err != nil {
 		log.Fatalf("Failed to get model: %v", err)
 	}
-	if _, err := provider.OllamaQwen3(g, 14); err != nil {
+	if _, err := models.OllamaQwen3(g, 14); err != nil {
 		log.Fatalf("Failed to get model: %v", err)
 	}
 
-	if _, err := provider.GoogleAI(g, provider.GoogleAIGemma3o4b); err != nil {
+	if _, err := models.GoogleAI(g, models.GoogleAIGemma3o4b); err != nil {
 		log.Fatalf("Failed to get model: %v", err)
 	}
-	if _, err := provider.GoogleAI(g, provider.GoogleAIGemma3o12b); err != nil {
+	if _, err := models.GoogleAI(g, models.GoogleAIGemma3o12b); err != nil {
 		log.Fatalf("Failed to get model: %v", err)
 	}
-	if _, err := provider.GoogleAI(g, provider.GoogleAIGemma3o27b); err != nil {
+	if _, err := models.GoogleAI(g, models.GoogleAIGemma3o27b); err != nil {
 		log.Fatalf("Failed to get model: %v", err)
 	}
-	if _, err := provider.GoogleAI(g, provider.GoogleAIGemini2o5Pro); err != nil {
+	if _, err := models.GoogleAI(g, models.GoogleAIGemini2o5Pro); err != nil {
 		log.Fatalf("Failed to get model: %v", err)
 	}
-	if _, err := provider.GoogleAI(g, provider.GoogleAIGemini2o5Flash); err != nil {
+	if _, err := models.GoogleAI(g, models.GoogleAIGemini2o5Flash); err != nil {
 		log.Fatalf("Failed to get model: %v", err)
 	}
-	if _, err := provider.GoogleAI(g, provider.GoogleAIGemini2o5FlashLite); err != nil {
+	if _, err := models.GoogleAI(g, models.GoogleAIGemini2o5FlashLite); err != nil {
 		log.Fatalf("Failed to get model: %v", err)
 	}
 

@@ -1,4 +1,4 @@
-package provider
+package models
 
 import (
 	"fmt"
@@ -27,6 +27,22 @@ func GoogleAI(g *genkit.Genkit, modelName string) (ai.Model, error) {
 	m := googlegenai.GoogleAIModel(g, modelName)
 	if m == nil {
 		return nil, fmt.Errorf("model %s not found in googleai plugin", modelName)
+	}
+	return m, nil
+}
+
+func GetGoogleAI(g *genkit.Genkit, modelName string) (ai.Model, error) {
+	p := genkit.LookupPlugin(g, googleAIProvider)
+	if p == nil {
+		return nil, fmt.Errorf("googleai plugin not found, make sure to initialize genkit with googleai plugin")
+	}
+	_, ok := p.(*googlegenai.GoogleAI)
+	if !ok {
+		return nil, fmt.Errorf("plugin is not of type googlegenai.GoogleAI")
+	}
+	m := genkit.LookupModel(g, fmt.Sprintf("%s/%s", googleAIProvider, modelName))
+	if m == nil {
+		return nil, fmt.Errorf("model %s not found, make sure to define it first", modelName)
 	}
 	return m, nil
 }

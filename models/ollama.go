@@ -1,4 +1,4 @@
-package provider
+package models
 
 import (
 	"fmt"
@@ -40,7 +40,7 @@ func GetOllamaGptOss20b(g *genkit.Genkit) (ai.Model, error) {
 	if !ok {
 		return nil, fmt.Errorf("plugin is not of type ollama.Ollama")
 	}
-	m := genkit.LookupModel(g, "gpt-oss:20b")
+	m := genkit.LookupModel(g, fmt.Sprintf("%s/gpt-oss:20b", ollamaProvider))
 	if m == nil {
 		return nil, fmt.Errorf("model gpt-oss:20b not found, make sure to define it first")
 	}
@@ -76,7 +76,7 @@ func GetOllamaGemma3(g *genkit.Genkit, bits int) (ai.Model, error) {
 	if !ok {
 		return nil, fmt.Errorf("plugin is not of type ollama.Ollama")
 	}
-	modelName := fmt.Sprintf("gemma3:%db", bits)
+	modelName := fmt.Sprintf("%s/gemma3:%db", ollamaProvider, bits)
 	m := genkit.LookupModel(g, modelName)
 	if m == nil {
 		return nil, fmt.Errorf("model %s not found, make sure to define it first", modelName)
@@ -93,7 +93,7 @@ func OllamaQwen3(g *genkit.Genkit, bits int) (ai.Model, error) {
 	if !ok {
 		return nil, fmt.Errorf("plugin is not of type ollama.Ollama")
 	}
-	modelName := fmt.Sprintf("qwen3:%db", bits)
+	modelName := fmt.Sprintf("%s/qwen3:%db", ollamaProvider, bits)
 	return o.DefineModel(g, ollama.ModelDefinition{
 		Name: modelName,
 		Type: "chat",

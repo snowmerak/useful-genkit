@@ -12,6 +12,7 @@ import (
 	"github.com/firebase/genkit/go/plugins/ollama"
 	"github.com/firebase/genkit/go/plugins/server"
 	provider "github.com/snowmerak/useful-genkit/models"
+	"github.com/snowmerak/useful-genkit/prompts"
 	"github.com/snowmerak/useful-genkit/tools"
 )
 
@@ -31,6 +32,14 @@ func main() {
 	if _, err := provider.OllamaGptOss20b(g); err != nil {
 		log.Fatalf("Failed to get model: %v", err)
 	}
+	if _, err := provider.OllamaGemma3(g, 12); err != nil {
+		log.Fatalf("Failed to get model: %v", err)
+	}
+	if _, err := provider.OllamaQwen3(g, 14); err != nil {
+		log.Fatalf("Failed to get model: %v", err)
+	}
+
+	_ = prompts.RegisterTranslationPrompt(g)
 
 	_ = tools.GetCurrentTime(g)
 

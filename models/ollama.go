@@ -31,6 +31,22 @@ func OllamaGptOss20b(g *genkit.Genkit) (ai.Model, error) {
 	}), nil
 }
 
+func GetOllamaGptOss20b(g *genkit.Genkit) (ai.Model, error) {
+	p := genkit.LookupPlugin(g, ollamaProvider)
+	if p == nil {
+		return nil, fmt.Errorf("ollama plugin not found, make sure to initialize genkit with ollama plugin")
+	}
+	_, ok := p.(*ollama.Ollama)
+	if !ok {
+		return nil, fmt.Errorf("plugin is not of type ollama.Ollama")
+	}
+	m := genkit.LookupModel(g, "gpt-oss:20b")
+	if m == nil {
+		return nil, fmt.Errorf("model gpt-oss:20b not found, make sure to define it first")
+	}
+	return m, nil
+}
+
 func OllamaGemma3(g *genkit.Genkit, bits int) (ai.Model, error) {
 	p := genkit.LookupPlugin(g, ollamaProvider)
 	if p == nil {
@@ -49,6 +65,23 @@ func OllamaGemma3(g *genkit.Genkit, bits int) (ai.Model, error) {
 			Multiturn: true,
 		},
 	}), nil
+}
+
+func GetOllamaGemma3(g *genkit.Genkit, bits int) (ai.Model, error) {
+	p := genkit.LookupPlugin(g, ollamaProvider)
+	if p == nil {
+		return nil, fmt.Errorf("ollama plugin not found, make sure to initialize genkit with ollama plugin")
+	}
+	_, ok := p.(*ollama.Ollama)
+	if !ok {
+		return nil, fmt.Errorf("plugin is not of type ollama.Ollama")
+	}
+	modelName := fmt.Sprintf("gemma3:%db", bits)
+	m := genkit.LookupModel(g, modelName)
+	if m == nil {
+		return nil, fmt.Errorf("model %s not found, make sure to define it first", modelName)
+	}
+	return m, nil
 }
 
 func OllamaQwen3(g *genkit.Genkit, bits int) (ai.Model, error) {
@@ -71,4 +104,21 @@ func OllamaQwen3(g *genkit.Genkit, bits int) (ai.Model, error) {
 			Tools:      true,
 		},
 	}), nil
+}
+
+func GetOllamaQwen3(g *genkit.Genkit, bits int) (ai.Model, error) {
+	p := genkit.LookupPlugin(g, ollamaProvider)
+	if p == nil {
+		return nil, fmt.Errorf("ollama plugin not found, make sure to initialize genkit with ollama plugin")
+	}
+	_, ok := p.(*ollama.Ollama)
+	if !ok {
+		return nil, fmt.Errorf("plugin is not of type ollama.Ollama")
+	}
+	modelName := fmt.Sprintf("qwen3:%db", bits)
+	m := genkit.LookupModel(g, modelName)
+	if m == nil {
+		return nil, fmt.Errorf("model %s not found, make sure to define it first", modelName)
+	}
+	return m, nil
 }

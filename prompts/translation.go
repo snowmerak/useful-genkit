@@ -28,7 +28,12 @@ func RenderTranslationPrompt(ctx context.Context, g *genkit.Genkit, text, source
 	if p == nil {
 		return nil, fmt.Errorf("prompt %s not found", TranslationPromptName)
 	}
-	opt, err := p.Render(ctx, map[string]any{})
+	opt, err := p.Render(ctx, map[string]any{
+		"text":   text,
+		"source": sourceLang,
+		"target": targetLang,
+		"domain": domain,
+	})
 	if err != nil {
 		return nil, fmt.Errorf("failed to render prompt: %w", err)
 	}

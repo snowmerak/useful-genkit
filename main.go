@@ -61,7 +61,7 @@ func main() {
 		log.Fatalf("Failed to get model: %v", err)
 	}
 
-	_ = prompts.RegisterTranslationPrompt(g)
+	_ = prompts.TranslationPrompt(g)
 
 	_ = tools.GetCurrentTime(g)
 

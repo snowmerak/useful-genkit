@@ -8,7 +8,7 @@ import (
 	"github.com/firebase/genkit/go/genkit"
 )
 
-const Translation = "Translation"
+const TranslationPromptName = "Translation"
 
 type TranslationInput struct {
 	Text   string `json:"text"`
@@ -17,16 +17,16 @@ type TranslationInput struct {
 	Domain string `json:"domain"`
 }
 
-func RegisterTranslationPrompt(g *genkit.Genkit) ai.Prompt {
-	return genkit.DefinePrompt(g, Translation, ai.WithPrompt(`Act as an expert translator specializing in {{domain}}. Your task is to translate the following text from {{source}} to {{target}}, ensuring the highest level of accuracy and preserving the original nuance.
+func TranslationPrompt(g *genkit.Genkit) ai.Prompt {
+	return genkit.DefinePrompt(g, TranslationPromptName, ai.WithPrompt(`Act as an expert translator specializing in {{domain}}. Your task is to translate the following text from {{source}} to {{target}}, ensuring the highest level of accuracy and preserving the original nuance.
 
 {{text}}`), ai.WithInputType(TranslationInput{}))
 }
 
 func RenderTranslationPrompt(ctx context.Context, g *genkit.Genkit, text, sourceLang, targetLang, domain string) ([]*ai.Message, error) {
-	p := genkit.LookupPrompt(g, Translation)
+	p := genkit.LookupPrompt(g, TranslationPromptName)
 	if p == nil {
-		return nil, fmt.Errorf("prompt %s not found", Translation)
+		return nil, fmt.Errorf("prompt %s not found", TranslationPromptName)
 	}
 	opt, err := p.Render(ctx, map[string]any{})
 	if err != nil {

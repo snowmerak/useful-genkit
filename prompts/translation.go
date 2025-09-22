@@ -23,12 +23,12 @@ func RegisterTranslationPrompt(g *genkit.Genkit) ai.Prompt {
 {{text}}`), ai.WithInputType(TranslationInput{}))
 }
 
-func RenderTranslationPrompt(g *genkit.Genkit, text, sourceLang, targetLang, domain string) ([]*ai.Message, error) {
+func RenderTranslationPrompt(ctx context.Context, g *genkit.Genkit, text, sourceLang, targetLang, domain string) ([]*ai.Message, error) {
 	p := genkit.LookupPrompt(g, Translation)
 	if p == nil {
 		return nil, fmt.Errorf("prompt %s not found", Translation)
 	}
-	opt, err := p.Render(context.TODO(), map[string]any{})
+	opt, err := p.Render(ctx, map[string]any{})
 	if err != nil {
 		return nil, fmt.Errorf("failed to render prompt: %w", err)
 	}

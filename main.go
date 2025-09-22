@@ -12,6 +12,7 @@ import (
 	"github.com/firebase/genkit/go/plugins/googlegenai"
 	"github.com/firebase/genkit/go/plugins/ollama"
 	"github.com/firebase/genkit/go/plugins/server"
+	"github.com/snowmerak/useful-genkit/flows"
 	provider "github.com/snowmerak/useful-genkit/models"
 	"github.com/snowmerak/useful-genkit/prompts"
 	"github.com/snowmerak/useful-genkit/tools"
@@ -64,6 +65,8 @@ func main() {
 	_ = prompts.TranslationPrompt(g)
 
 	_ = tools.GetCurrentTime(g)
+
+	flows.TranslationFlow(g)
 
 	mux := http.NewServeMux()
 

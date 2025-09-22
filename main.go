@@ -9,6 +9,7 @@ import (
 	"syscall"
 
 	"github.com/firebase/genkit/go/genkit"
+	"github.com/firebase/genkit/go/plugins/googlegenai"
 	"github.com/firebase/genkit/go/plugins/ollama"
 	"github.com/firebase/genkit/go/plugins/server"
 	provider "github.com/snowmerak/useful-genkit/models"
@@ -26,7 +27,9 @@ func main() {
 	}
 
 	g := genkit.Init(ctx,
-		genkit.WithPlugins(o),
+		genkit.WithPlugins(o, &googlegenai.GoogleAI{
+			APIKey: os.Getenv("GEMINI_API_KEY"),
+		}),
 	)
 
 	if _, err := provider.OllamaGptOss20b(g); err != nil {
@@ -36,6 +39,25 @@ func main() {
 		log.Fatalf("Failed to get model: %v", err)
 	}
 	if _, err := provider.OllamaQwen3(g, 14); err != nil {
+		log.Fatalf("Failed to get model: %v", err)
+	}
+
+	if _, err := provider.GoogleAI(g, provider.GoogleAIGemma3o4b); err != nil {
+		log.Fatalf("Failed to get model: %v", err)
+	}
+	if _, err := provider.GoogleAI(g, provider.GoogleAIGemma3o12b); err != nil {
+		log.Fatalf("Failed to get model: %v", err)
+	}
+	if _, err := provider.GoogleAI(g, provider.GoogleAIGemma3o27b); err != nil {
+		log.Fatalf("Failed to get model: %v", err)
+	}
+	if _, err := provider.GoogleAI(g, provider.GoogleAIGemini2o5Pro); err != nil {
+		log.Fatalf("Failed to get model: %v", err)
+	}
+	if _, err := provider.GoogleAI(g, provider.GoogleAIGemini2o5Flash); err != nil {
+		log.Fatalf("Failed to get model: %v", err)
+	}
+	if _, err := provider.GoogleAI(g, provider.GoogleAIGemini2o5FlashLite); err != nil {
 		log.Fatalf("Failed to get model: %v", err)
 	}
 

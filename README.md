@@ -1,90 +1,94 @@
 # useful-genkit
 
-Go용 Firebase Genkit을 활용한 AI 애플리케이션 개발을 위한 유틸리티 패키지 모음입니다. 다양한 AI 모델(Ollama, Google AI)을 통합하고, 번역 플로우를 구현한 실용적인 예제 프로젝트입니다.
+A collection of utility packages for building AI applications using Firebase Genkit for Go. This project serves as a practical example integrating various AI models (Ollama, Google AI) and implementing workflows like translation.
 
-## 프로젝트 구조
+## Project Structure
 
 ### 📁 `models/`
-AI 모델 관리 및 추상화 레이어
+AI Model Management and Abstraction Layer
 
-#### 의도
-- 다양한 AI 제공자(Ollama, Google AI)의 모델을 통합 관리
-- 모델 초기화와 검색을 위한 일관된 API 제공
-- 모델별 특성과 제약사항을 캡슐화
+#### Intent
+- Unified management of models from various AI providers (Ollama, Google AI)
+- Consistent API for model initialization and retrieval
+- Encapsulation of model-specific characteristics and constraints
 
-#### 포함 내용
-- **`ollama.go`**: Ollama 로컬 모델 관리
-  - GPT-OSS 20B, Gemma3, Qwen3 모델 지원
-  - 모델 정의 및 검색 함수 제공
-  - 멀티턴 대화, 도구 사용 지원 설정
-- **`gemini.go`**: Google AI 모델 관리
-  - Gemini 2.5 Pro/Flash 시리즈 지원
-  - Gemma 3 시리즈 (4B, 12B, 27B) 지원
-  - 통일된 인터페이스로 모델 접근
+#### Contents
+- **`ollama.go`**: Ollama Local Model Management
+  - Supports GPT-OSS 20B, Gemma3, Qwen3 models
+  - Provides model definition and retrieval functions
+  - Configured for multi-turn conversation and tool usage
+- **`gemini.go`**: Google AI Model Management
+  - Supports Gemini 2.5 Pro/Flash series
+  - Supports Gemma 3 series (4B, 12B, 27B)
+  - Unified interface for model access
 
 ### 📁 `flows/`
-비즈니스 로직을 담은 워크플로우 정의
+Workflow Definitions containing Business Logic
 
-#### 의도
-- 복잡한 AI 작업을 재사용 가능한 플로우로 구조화
-- 입력/출력 타입 안전성 보장
-- 에러 처리와 검증 로직 포함
+#### Intent
+- Structuring complex AI tasks into reusable flows
+- Ensuring input/output type safety
+- Including error handling and validation logic
 
-#### 포함 내용
-- **`translation.go`**: 번역 플로우 구현
-  - 소스/타겟 언어, 도메인 지정 가능한 번역
-  - 구조화된 입력(`TranslationInput`)과 출력(`TranslationOutput`)
-  - 프롬프트 렌더링과 모델 호출 통합
+#### Contents
+- **`translation.go`**: Translation Flow Implementation
+  - Translation with configurable source/target languages and domain
+  - Structured input (`TranslationInput`) and output (`TranslationOutput`)
+  - Integration of prompt rendering and model invocation
 
 ### 📁 `prompts/`
-AI 모델과의 상호작용을 위한 프롬프트 템플릿
+Prompt Templates for AI Model Interaction
 
-#### 의도
-- 재사용 가능하고 파라미터화된 프롬프트 관리
-- 컨텍스트별 전문성을 갖춘 프롬프트 설계
-- 프롬프트 렌더링과 메시지 생성 분리
+#### Intent
+- Management of reusable and parameterized prompts
+- Designing prompts with context-specific expertise
+- Separation of prompt rendering and message generation
 
-#### 포함 내용
-- **`translation.go`**: 번역 전용 프롬프트
-  - 도메인별 전문 번역가 역할 설정
-  - 원문의 뉘앙스 보존 강조
-  - 템플릿 변수를 통한 동적 프롬프트 생성
+#### Contents
+- **`translation.go`**: Translation-specific Prompts
+  - Sets up the role of a domain-specific expert translator
+  - Emphasizes preservation of original nuances
+  - Dynamic prompt generation via template variables
 
 ### 📁 `tools/`
-AI 모델이 사용할 수 있는 외부 도구 정의
+External Tools available for AI Models
 
-#### 의도
-- 모델의 기능을 실세계 데이터나 작업으로 확장
-- 구조화된 입력/출력으로 도구 호출 안전성 보장
-- 재사용 가능한 유틸리티 함수 제공
+#### Intent
+- Extending model capabilities with real-world data or tasks
+- Ensuring safe tool invocation with structured input/output
+- Providing reusable utility functions
 
-#### 포함 내용
-- **`get_current_time.go`**: 현재 시간 조회 도구
-  - 시간 정보가 필요한 AI 작업 지원
-  - JSON 직렬화 가능한 구조화된 출력
+#### Contents
+- **`get_current_time.go`**: Current Time Retrieval Tool
+  - Supports AI tasks requiring time information
+  - JSON-serializable structured output
+- **`find_usage.go`**: Code Usage Finder Tool
+  - Finds usages of functions, methods, or types in the codebase using [`ast-grep`](https://ast-grep.github.io)
+  - Returns the full code definition of the matched symbol including file path and line number
+  - **Note**: Requires `ast-grep` (`sg` command) to be installed on the system
 
 ### 📁 `logic/`
-고급 생성 로직과 헬퍼 함수
+Advanced Generation Logic and Helper Functions
 
-#### 의도
-- 복잡한 AI 상호작용 패턴을 재사용 가능한 함수로 추상화
-- 도구 사용과 데이터 생성을 결합한 고급 워크플로우
-- 대화 히스토리 관리와 컨텍스트 유지
+#### Intent
+- Abstraction of complex AI interaction patterns into reusable functions
+- Advanced workflows combining tool usage and data generation
+- Conversation history management and context maintenance
 
-#### 포함 내용
-- **`generate_data_with_tool.go`**: 도구 사용이 포함된 데이터 생성
-  - 도구 호출 후 대화 히스토리 기반 최종 답변 생성
-  - 제네릭 타입으로 다양한 출력 형태 지원
-  - 전처리된 대화를 통한 컨텍스트 유지
+#### Contents
+- **`generate_data_with_tool.go`**: Data Generation with Tool Usage
+  - Generates final response based on conversation history after tool invocation
+  - Supports various output formats via generic types
+  - Maintains context through pre-processed conversation history
 
-## 주요 특징
+## Key Features
 
-- **멀티 모델 지원**: Ollama 로컬 모델과 Google AI 클라우드 모델 통합
-- **타입 안전성**: Go의 강타입 시스템을 활용한 안전한 AI 상호작용
-- **모듈화**: 각 기능별로 분리된 패키지 구조로 유지보수성 향상
-- **확장성**: 새로운 모델, 플로우, 도구를 쉽게 추가할 수 있는 구조
-- **에러 처리**: 견고한 에러 처리와 검증 로직 포함
+- **Multi-Model Support**: Integration of Ollama local models and Google AI cloud models
+- **Type Safety**: Safe AI interaction leveraging Go's strong type system
+- **Modularity**: Improved maintainability with separated package structure for each function
+- **Extensibility**: Structure designed for easy addition of new models, flows, and tools
+- **Error Handling**: Robust error handling and validation logic included
 
-## 사용 예시
+## Usage Examples
 
-이 프로젝트는 Firebase Genkit Go SDK를 활용하여 AI 애플리케이션을 개발할 때 참고할 수 있는 실용적인 패턴들을 제공합니다. 번역 서비스부터 시작하여 다양한 AI 기반 애플리케이션으로 확장할 수 있는 기반을 마련하고 있습니다.
+This project provides practical patterns for developing AI applications using the Firebase Genkit Go SDK. It establishes a foundation that can be extended from translation services to various AI-based applications.

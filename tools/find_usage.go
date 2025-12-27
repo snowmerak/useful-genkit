@@ -1,0 +1,81 @@
+package tools
+
+import (
+	"encoding/json"
+	"fmt"
+	"os"
+	"os/exec"
+
+	"github.com/firebase/genkit/go/ai"
+	"github.com/firebase/genkit/go/genkit"
+)
+
+type FindUsageInput struct {
+	Query    string `json:"query"`
+	Language string `json:"language"`
+}
+
+type FindUsageOutput struct {
+	Result string `json:"result"`
+}
+
+func FindUsage(g *genkit.Genkit) ai.Tool {
+	return genkit.DefineTool(g, "FindUsage", "Finds usages of a symbol (function, method, or type) in the codebase using ast-grep.", func(ctx *ai.ToolContext, input FindUsageInput) (FindUsageOutput, error) {
+		// Create a temporary rule file
+		ruleContent := fmt.Sprintf(`id: find-usage
+language: %s
+rule:
+  any:
+    - kind: function_declaration
+    - kind: method_declaration
+    - kind: type_declaration
+  has:
+    stopBy: end
+    regex: %s
+`, input.Language, input.Query)
+
+		tmpFile, err := os.CreateTemp("", "find_usage_*.yml")
+		if err != nil {
+			return FindUsageOutput{}, fmt.Errorf("failed to create temp file: %w", err)
+		}
+		defer os.Remove(tmpFile.Name())
+
+		if _, err := tmpFile.WriteString(ruleContent); err != nil {
+			return FindUsageOutput{}, fmt.Errorf("failed to write to temp file: %w", err)
+		}
+		if err := tmpFile.Close(); err != nil {
+			return FindUsageOutput{}, fmt.Errorf("failed to close temp file: %w", err)
+		}
+
+		// Run ast-grep
+		cmd := exec.Command("sg", "scan", "--json", "-r", tmpFile.Name())
+		output, err := cmd.CombinedOutput()
+		if err != nil {
+			// If output is empty, it's a real error. If not, it might just be exit code 1 for no matches or similar (though sg usually returns 0).
+			if len(output) == 0 {
+				return FindUsageOutput{Result: fmt.Sprintf("Error running ast-grep: %v", err)}, nil
+			}
+		}
+
+		// Parse JSON output to make it more readable or just return as string
+		var matches []interface{}
+		if err := json.Unmarshal(output, &matches); err != nil {
+			// If not JSON, return raw output (it might be an error message)
+			return FindUsageOutput{Result: string(output)}, nil
+		}
+
+		if len(matches) == 0 {
+			return FindUsageOutput{Result: "No usages found."}, nil
+		}
+
+		// Re-marshal to pretty JSON string
+		prettyOutput, err := json.MarshalIndent(matches, "", "  ")
+		if err != nil {
+			return FindUsageOutput{Result: string(output)}, nil
+		}
+
+		return FindUsageOutput{
+			Result: string(prettyOutput),
+		}, nil
+	})
+}

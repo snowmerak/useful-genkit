@@ -65,6 +65,7 @@ func main() {
 	_ = prompts.TranslationPrompt(g)
 
 	_ = tools.GetCurrentTime(g)
+	_ = tools.FindUsage(g)
 
 	flows.TranslationFlow(g)
 

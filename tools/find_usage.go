@@ -58,7 +58,16 @@ rule:
 		}
 
 		// Parse JSON output to make it more readable or just return as string
-		var matches []interface{}
+		type SgMatch struct {
+			Text  string `json:"text"`
+			File  string `json:"file"`
+			Range struct {
+				Start struct {
+					Line int `json:"line"`
+				} `json:"start"`
+			} `json:"range"`
+		}
+		var matches []SgMatch
 		if err := json.Unmarshal(output, &matches); err != nil {
 			// If not JSON, return raw output (it might be an error message)
 			return FindUsageOutput{Result: string(output)}, nil
@@ -68,14 +77,14 @@ rule:
 			return FindUsageOutput{Result: "No usages found."}, nil
 		}
 
-		// Re-marshal to pretty JSON string
-		prettyOutput, err := json.MarshalIndent(matches, "", "  ")
-		if err != nil {
-			return FindUsageOutput{Result: string(output)}, nil
+		// Format the output
+		var result string
+		for _, match := range matches {
+			result += fmt.Sprintf("File: %s (Line %d)\n```%s\n%s\n```\n\n", match.File, match.Range.Start.Line+1, input.Language, match.Text)
 		}
 
 		return FindUsageOutput{
-			Result: string(prettyOutput),
+			Result: result,
 		}, nil
 	})
 }

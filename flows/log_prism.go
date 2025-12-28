@@ -80,6 +80,12 @@ func LogPrismFlow(g *genkit.Genkit) {
 			findDefTool := genkit.LookupTool(g, tools.FindDefinitionTool)
 			findUsageTool := genkit.LookupTool(g, tools.FindUsageTool)
 			findStructsTool := genkit.LookupTool(g, tools.FindStructsTool)
+			readFileTool := genkit.LookupTool(g, tools.ReadFileTool)
+			writeFileTool := genkit.LookupTool(g, tools.WriteFileTool)
+			listFilesTool := genkit.LookupTool(g, tools.ListFilesTool)
+			createDirectoryTool := genkit.LookupTool(g, tools.CreateDirectoryTool)
+			deleteDirectoryTool := genkit.LookupTool(g, tools.DeleteDirectoryTool)
+			walkDirectoryTool := genkit.LookupTool(g, tools.WalkDirectoryTool)
 
 			var toolRefs []ai.ToolRef
 			if findDefTool != nil {
@@ -90,6 +96,24 @@ func LogPrismFlow(g *genkit.Genkit) {
 			}
 			if findStructsTool != nil {
 				toolRefs = append(toolRefs, findStructsTool)
+			}
+			if readFileTool != nil {
+				toolRefs = append(toolRefs, readFileTool)
+			}
+			if writeFileTool != nil {
+				toolRefs = append(toolRefs, writeFileTool)
+			}
+			if listFilesTool != nil {
+				toolRefs = append(toolRefs, listFilesTool)
+			}
+			if createDirectoryTool != nil {
+				toolRefs = append(toolRefs, createDirectoryTool)
+			}
+			if deleteDirectoryTool != nil {
+				toolRefs = append(toolRefs, deleteDirectoryTool)
+			}
+			if walkDirectoryTool != nil {
+				toolRefs = append(toolRefs, walkDirectoryTool)
 			}
 
 			result, err := logic.GenerateDataWithTool[prompts.LogPrismOutput](

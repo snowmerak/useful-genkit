@@ -24,7 +24,8 @@ func LogPrismPrompt(g *genkit.Genkit) ai.Prompt {
 - TypeScript/JavaScript: logtape
 - Rust: tracing crate
 
-The golang code below are examples, but you can adapt the concepts to other languages as well.
+The golang code below are examples, but you can adapt the concepts to other languages as well.  
+If you can create new files for logging utilities, do so and show the full code of those files as well.
 
 ## Prism
 

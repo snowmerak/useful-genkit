@@ -33,7 +33,5 @@ Here is the code:
 
 {{code}}
 
-Return the FULL source code with the modifications applied. Do not omit any parts of the code.`), ai.WithInputType(WrapErrorInput{}), ai.WithConfig(&ai.GenerationCommonConfig{
-		Temperature: 0.1,
-	}))
+Return the FULL source code with the modifications applied. Do not omit any parts of the code.`), ai.WithInputType(&WrapErrorInput{}))
 }

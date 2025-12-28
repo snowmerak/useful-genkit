@@ -5,7 +5,7 @@ import (
 	"github.com/firebase/genkit/go/genkit"
 )
 
-const LogPrismPromptName = "LogPrismPrompt"
+const LogPrismPromptName = "LogPrismPromptV2"
 
 type LogPrismInput struct {
 	Code     string `json:"code"`
@@ -137,7 +137,5 @@ File Path: {{file_path}}
 {{code}}
 
 Return the FULL source code with logging added. Do not omit any parts of the code.
-`, ai.WithInputType(LogPrismInput{}), ai.WithConfig(&ai.GenerationCommonConfig{
-		Temperature: 0.1,
-	})))
+`), ai.WithInputType(&LogPrismInput{}))
 }

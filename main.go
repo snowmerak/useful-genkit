@@ -67,6 +67,7 @@ func main() {
 
 	_ = prompts.TranslationPrompt(g)
 	_ = prompts.WrapErrorPrompt(g)
+	_ = prompts.LogPrismPrompt(g)
 
 	_ = tools.GetCurrentTime(g)
 	_ = tools.FindUsage(g)
@@ -84,6 +85,7 @@ func main() {
 
 	flows.TranslationFlow(g)
 	flows.WrapGoErrorFlow(g)
+	flows.LogPrismFlow(g)
 
 	mux := http.NewServeMux()
 

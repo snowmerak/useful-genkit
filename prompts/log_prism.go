@@ -25,7 +25,8 @@ func LogPrismPrompt(g *genkit.Genkit) ai.Prompt {
 - Rust: tracing crate
 
 The golang code below are examples, but you can adapt the concepts to other languages as well.  
-If you can create new files for logging utilities. Find the log library first, and create the necessary logging utility files under the "utils" or "common" directory.
+If you can create new files for logging utilities. Find the log library first, and create the necessary logging utility files under the "{{base_path}}/utils/log" directory.
+Do not escape from {{base_path}} .
 
 ## Prism
 
@@ -36,7 +37,7 @@ I designed three log types:
 
 ### Span
 
-Similar to OpenTelemetry. It tracks the lifecycle of a single request, method, or API call. This structure allows tracking how long the entire request took and which methods or APIs took the longest during execution, enabling preemptive service improvement or infrastructure expansion.
+It tracks the lifecycle of a single request, method, or API call. This structure allows tracking how long the entire request took and which methods or APIs took the longest during execution, enabling preemptive service improvement or infrastructure expansion. Print Span logs at the end of the work or scope.
 
 type Span struct {
     ServiceName string

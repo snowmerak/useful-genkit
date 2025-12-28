@@ -67,7 +67,7 @@ func WrapGoErrorFlow(g *genkit.Genkit) {
 			}
 
 			// Use a model to generate the response
-			model, err := models.GetOllamaGptOss20b(g)
+			model, err := models.GetGoogleAI(g, models.GoogleAIGemini2o5FlashLite)
 			if err != nil {
 				return WrapGoErrorOutput{}, fmt.Errorf("failed to get model: %w", err)
 			}
@@ -99,7 +99,7 @@ func WrapGoErrorFlow(g *genkit.Genkit) {
 				ai.WithTools(toolRefs...),
 				req.Messages,
 				ai.WithModel(model),
-				ai.WithConfig(req.Config),
+				// ai.WithConfig(req.Config),
 			)
 			if err != nil {
 				return WrapGoErrorOutput{}, fmt.Errorf("failed to generate code for %s: %w", file, err)

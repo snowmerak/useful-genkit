@@ -11,12 +11,14 @@ import (
 const googleAIProvider = "googleai"
 
 const (
-	GoogleAIGemini2o5Pro       = "gemini-2.5-pro"
-	GoogleAIGemini2o5Flash     = "gemini-2.5-flash"
-	GoogleAIGemini2o5FlashLite = "gemini-2.5-flash-lite"
-	GoogleAIGemma3o4b          = "gemma-3-4b-it"
-	GoogleAIGemma3o12b         = "gemma-3-12b-it"
-	GoogleAIGemma3o27b         = "gemma-3-27b-it"
+	GoogleAIGemini3ProPreview   = "gemini-3-pro-preview"
+	GoogleAIGemini3FlashPreview = "gemini-3-flash-preview"
+	GoogleAIGemini2o5Pro        = "gemini-2.5-pro"
+	GoogleAIGemini2o5Flash      = "gemini-2.5-flash"
+	GoogleAIGemini2o5FlashLite  = "gemini-2.5-flash-lite"
+	GoogleAIGemma3o4b           = "gemma-3-4b-it"
+	GoogleAIGemma3o12b          = "gemma-3-12b-it"
+	GoogleAIGemma3o27b          = "gemma-3-27b-it"
 )
 
 func GoogleAI(g *genkit.Genkit, modelName string) (ai.Model, error) {

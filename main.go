@@ -36,16 +36,13 @@ func main() {
 	if _, err := models.OllamaGptOss20b(g); err != nil {
 		log.Fatalf("Failed to get model: %v", err)
 	}
-	if _, err := models.OllamaGemma3(g, 12); err != nil {
-		log.Fatalf("Failed to get model: %v", err)
-	}
-	if _, err := models.OllamaQwen3(g, 14); err != nil {
-		log.Fatalf("Failed to get model: %v", err)
-	}
 	if _, err := models.OllamaQwen3Coder(g, 30); err != nil {
 		log.Fatalf("Failed to get model: %v", err)
 	}
 	if _, err := models.OllamaDevstralSmall2(g); err != nil {
+		log.Fatalf("Failed to get model: %v", err)
+	}
+	if _, err := models.OllamaMinistral3o14B(g); err != nil {
 		log.Fatalf("Failed to get model: %v", err)
 	}
 

@@ -3,6 +3,7 @@ package tools
 import (
 	"fmt"
 	"os"
+	"path/filepath"
 
 	"github.com/firebase/genkit/go/ai"
 	"github.com/firebase/genkit/go/genkit"
@@ -48,6 +49,10 @@ type WriteFileOutput struct {
 // WriteFile creates a tool to write content to a file.
 func WriteFile(g *genkit.Genkit) ai.Tool {
 	return genkit.DefineTool(g, WriteFileTool, "Writes content to a file at the specified path. Overwrites existing content.", func(ctx *ai.ToolContext, input WriteFileInput) (WriteFileOutput, error) {
+		if err := os.MkdirAll(filepath.Dir(input.Path), 0755); err != nil {
+			return WriteFileOutput{Success: false}, fmt.Errorf("failed to create directories: %w", err)
+		}
+
 		if err := os.WriteFile(input.Path, []byte(input.Content), 0644); err != nil {
 			return WriteFileOutput{Success: false}, fmt.Errorf("failed to write file: %w", err)
 		}

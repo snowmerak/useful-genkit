@@ -72,7 +72,11 @@ func WrapGoErrorFlow(g *genkit.Genkit) {
 				return WrapGoErrorOutput{}, fmt.Errorf("failed to get model: %w", err)
 			}
 
-			req, err := prompt.Render(ctx, prompts.WrapErrorInput{Code: content})
+			req, err := prompt.Render(ctx, prompts.WrapErrorInput{
+				Code:     content,
+				BasePath: input.Path,
+				FilePath: file,
+			})
 			if err != nil {
 				return WrapGoErrorOutput{}, fmt.Errorf("failed to render prompt: %w", err)
 			}

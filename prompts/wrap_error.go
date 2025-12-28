@@ -8,7 +8,9 @@ import (
 const WrapErrorPromptName = "WrapErrorPrompt"
 
 type WrapErrorInput struct {
-	Code string `json:"code"`
+	Code     string `json:"code"`
+	BasePath string `json:"base_path"`
+	FilePath string `json:"file_path"`
 }
 
 type WrapErrorOutput struct {
@@ -24,7 +26,11 @@ Do NOT change any other logic.
 Do NOT wrap errors that are already wrapped or created with fmt.Errorf or errors.New.
 Only wrap raw "err" variables being returned.
 
+Base Path: {{base_path}}
+File Path: {{file_path}}
+
 Here is the code:
+
 {{code}}
 
 Return the FULL source code with the modifications applied. Do not omit any parts of the code.`), ai.WithInputType(WrapErrorInput{}), ai.WithConfig(&ai.GenerationCommonConfig{

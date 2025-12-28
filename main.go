@@ -66,6 +66,7 @@ func main() {
 
 	_ = tools.GetCurrentTime(g)
 	_ = tools.FindUsage(g)
+	_ = tools.FindDefinition(g)
 
 	flows.TranslationFlow(g)
 

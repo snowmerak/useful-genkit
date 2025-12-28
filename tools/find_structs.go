@@ -11,6 +11,8 @@ import (
 	"github.com/snowmerak/useful-genkit/utils/language"
 )
 
+const FindStructsTool = "FindStructs"
+
 type FindStructsInput struct {
 	StructName string            `json:"struct_name"`
 	Language   language.Language `json:"language"`
@@ -21,7 +23,7 @@ type FindStructsOutput struct {
 }
 
 func FindStructs(g *genkit.Genkit) ai.Tool {
-	return genkit.DefineTool(g, "FindStructs", "Finds the definition of a struct/class and its methods.", func(ctx *ai.ToolContext, input FindStructsInput) (FindStructsOutput, error) {
+	return genkit.DefineTool(g, FindStructsTool, "Finds the definition of a struct/class and its methods.", func(ctx *ai.ToolContext, input FindStructsInput) (FindStructsOutput, error) {
 		var patterns []string
 		switch input.Language {
 		case language.Go:

@@ -9,6 +9,14 @@ import (
 	"github.com/firebase/genkit/go/genkit"
 )
 
+const (
+	ListFilesTool           = "ListFiles"
+	CreateDirectoryTool     = "CreateDirectory"
+	DeleteDirectoryTool     = "DeleteDirectory"
+	GetCurrentDirectoryTool = "GetCurrentDirectory"
+	WalkDirectoryTool       = "WalkDirectory"
+)
+
 // ListFilesInput defines the input for the ListFiles tool.
 type ListFilesInput struct {
 	Path string `json:"path"`
@@ -21,7 +29,7 @@ type ListFilesOutput struct {
 
 // ListFiles creates a tool to list files in a directory.
 func ListFiles(g *genkit.Genkit) ai.Tool {
-	return genkit.DefineTool(g, "ListFiles", "Lists files and directories in the specified path.", func(ctx *ai.ToolContext, input ListFilesInput) (ListFilesOutput, error) {
+	return genkit.DefineTool(g, ListFilesTool, "Lists files and directories in the specified path.", func(ctx *ai.ToolContext, input ListFilesInput) (ListFilesOutput, error) {
 		entries, err := os.ReadDir(input.Path)
 		if err != nil {
 			return ListFilesOutput{}, fmt.Errorf("failed to read directory: %w", err)
@@ -52,7 +60,7 @@ type CreateDirectoryOutput struct {
 
 // CreateDirectory creates a tool to create a new directory.
 func CreateDirectory(g *genkit.Genkit) ai.Tool {
-	return genkit.DefineTool(g, "CreateDirectory", "Creates a new directory at the specified path.", func(ctx *ai.ToolContext, input CreateDirectoryInput) (CreateDirectoryOutput, error) {
+	return genkit.DefineTool(g, CreateDirectoryTool, "Creates a new directory at the specified path.", func(ctx *ai.ToolContext, input CreateDirectoryInput) (CreateDirectoryOutput, error) {
 		if err := os.MkdirAll(input.Path, 0755); err != nil {
 			return CreateDirectoryOutput{Success: false}, fmt.Errorf("failed to create directory: %w", err)
 		}
@@ -72,7 +80,7 @@ type DeleteDirectoryOutput struct {
 
 // DeleteDirectory creates a tool to delete a directory.
 func DeleteDirectory(g *genkit.Genkit) ai.Tool {
-	return genkit.DefineTool(g, "DeleteDirectory", "Deletes the directory at the specified path. Use with caution.", func(ctx *ai.ToolContext, input DeleteDirectoryInput) (DeleteDirectoryOutput, error) {
+	return genkit.DefineTool(g, DeleteDirectoryTool, "Deletes the directory at the specified path. Use with caution.", func(ctx *ai.ToolContext, input DeleteDirectoryInput) (DeleteDirectoryOutput, error) {
 		// Basic safety check: prevent deleting root or empty path
 		if input.Path == "/" || input.Path == "" || input.Path == "." {
 			return DeleteDirectoryOutput{Success: false}, fmt.Errorf("cannot delete root or current directory")
@@ -104,7 +112,7 @@ type GetCurrentDirectoryOutput struct {
 
 // GetCurrentDirectory creates a tool to get the current working directory.
 func GetCurrentDirectory(g *genkit.Genkit) ai.Tool {
-	return genkit.DefineTool(g, "GetCurrentDirectory", "Gets the current working directory.", func(ctx *ai.ToolContext, _ GetCurrentDirectoryInput) (GetCurrentDirectoryOutput, error) {
+	return genkit.DefineTool(g, GetCurrentDirectoryTool, "Gets the current working directory.", func(ctx *ai.ToolContext, _ GetCurrentDirectoryInput) (GetCurrentDirectoryOutput, error) {
 		dir, err := os.Getwd()
 		if err != nil {
 			return GetCurrentDirectoryOutput{}, fmt.Errorf("failed to get current directory: %w", err)
@@ -125,7 +133,7 @@ type WalkDirectoryOutput struct {
 
 // WalkDirectory creates a tool to recursively list all files in a directory.
 func WalkDirectory(g *genkit.Genkit) ai.Tool {
-	return genkit.DefineTool(g, "WalkDirectory", "Recursively lists all files in the specified directory.", func(ctx *ai.ToolContext, input WalkDirectoryInput) (WalkDirectoryOutput, error) {
+	return genkit.DefineTool(g, WalkDirectoryTool, "Recursively lists all files in the specified directory.", func(ctx *ai.ToolContext, input WalkDirectoryInput) (WalkDirectoryOutput, error) {
 		var files []string
 		err := filepath.Walk(input.Path, func(path string, info os.FileInfo, err error) error {
 			if err != nil {

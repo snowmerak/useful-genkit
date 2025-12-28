@@ -11,6 +11,8 @@ import (
 	"github.com/snowmerak/useful-genkit/utils/language"
 )
 
+const FindDefinitionTool = "FindDefinition"
+
 type FindDefinitionInput struct {
 	Query    string            `json:"query"`
 	Language language.Language `json:"language"`
@@ -21,7 +23,7 @@ type FindDefinitionOutput struct {
 }
 
 func FindDefinition(g *genkit.Genkit) ai.Tool {
-	return genkit.DefineTool(g, "FindDefinition", "Finds the definition of a symbol (function, method, or type) in the codebase using ast-grep.", func(ctx *ai.ToolContext, input FindDefinitionInput) (FindDefinitionOutput, error) {
+	return genkit.DefineTool(g, FindDefinitionTool, "Finds the definition of a symbol (function, method, or type) in the codebase using ast-grep.", func(ctx *ai.ToolContext, input FindDefinitionInput) (FindDefinitionOutput, error) {
 		// Create a temporary rule file
 		ruleContent := fmt.Sprintf(`id: find-definition
 language: %s

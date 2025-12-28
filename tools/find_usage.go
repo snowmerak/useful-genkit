@@ -11,6 +11,8 @@ import (
 	"github.com/snowmerak/useful-genkit/utils/language"
 )
 
+const FindUsageTool = "FindUsage"
+
 type FindUsageInput struct {
 	Query    string            `json:"query"`
 	Language language.Language `json:"language"`
@@ -21,7 +23,7 @@ type FindUsageOutput struct {
 }
 
 func FindUsage(g *genkit.Genkit) ai.Tool {
-	return genkit.DefineTool(g, "FindUsage", "Finds usages of a symbol (function, method, or type) in the codebase using ast-grep.", func(ctx *ai.ToolContext, input FindUsageInput) (FindUsageOutput, error) {
+	return genkit.DefineTool(g, FindUsageTool, "Finds usages of a symbol (function, method, or type) in the codebase using ast-grep.", func(ctx *ai.ToolContext, input FindUsageInput) (FindUsageOutput, error) {
 		// Create a temporary rule file
 		ruleContent := fmt.Sprintf(`id: find-usage
 language: %s

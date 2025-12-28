@@ -8,8 +8,10 @@ import (
 	"github.com/firebase/genkit/go/genkit"
 )
 
+const MaxTurns = 100
+
 func GenerateDataWithTool[out any](ctx context.Context, g *genkit.Genkit, tools ai.CommonGenOption, messages []*ai.Message, opts ...ai.GenerateOption) (*out, error) {
-	toolOpts := append([]ai.GenerateOption{tools, ai.WithMessages(messages...)}, opts...)
+	toolOpts := append([]ai.GenerateOption{tools, ai.WithMessages(messages...), ai.WithMaxTurns(MaxTurns)}, opts...)
 	resp, err := genkit.Generate(ctx, g, toolOpts...)
 	if err != nil {
 		return nil, fmt.Errorf("failed to generate: %w", err)

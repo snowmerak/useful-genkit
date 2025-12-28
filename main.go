@@ -67,6 +67,14 @@ func main() {
 	_ = tools.GetCurrentTime(g)
 	_ = tools.FindUsage(g)
 	_ = tools.FindDefinition(g)
+	_ = tools.FindStructs(g)
+	// _ = tools.FindInterfaceImplementations(g)
+
+	_ = tools.ListFiles(g)
+	_ = tools.CreateDirectory(g)
+	_ = tools.DeleteDirectory(g)
+	_ = tools.GetCurrentDirectory(g)
+	_ = tools.WalkDirectory(g)
 
 	flows.TranslationFlow(g)
 

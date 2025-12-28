@@ -9,6 +9,7 @@ import (
 
 	"github.com/firebase/genkit/go/ai"
 	"github.com/firebase/genkit/go/genkit"
+	"github.com/snowmerak/useful-genkit/logic"
 	"github.com/snowmerak/useful-genkit/models"
 	"github.com/snowmerak/useful-genkit/prompts"
 	"github.com/snowmerak/useful-genkit/tools"
@@ -115,11 +116,11 @@ func LogPrismFlow(g *genkit.Genkit) {
 				toolRefs = append(toolRefs, walkDirectoryTool)
 			}
 
-			result, _, err := genkit.GenerateData[prompts.LogPrismOutput](
+			result, err := logic.GenerateDataWithTool[prompts.LogPrismOutput](
 				ctx,
 				g,
 				ai.WithTools(toolRefs...),
-				ai.WithMessages(req.Messages...),
+				req.Messages,
 				ai.WithModel(model),
 			)
 			if err != nil {

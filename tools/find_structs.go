@@ -16,7 +16,7 @@ const FindStructsTool = "FindStructs"
 type FindStructsInput struct {
 	StructName string            `json:"struct_name"`
 	Language   language.Language `json:"language"`
-	BasePath   string            `json:"base_path,omitempty"`
+	BasePath   string            `json:"base_path"`
 }
 
 type FindStructsOutput struct {

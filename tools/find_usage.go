@@ -16,7 +16,7 @@ const FindUsageTool = "FindUsage"
 type FindUsageInput struct {
 	Query    string            `json:"query"`
 	Language language.Language `json:"language"`
-	BasePath string            `json:"base_path,omitempty"`
+	BasePath string            `json:"base_path"`
 }
 
 type FindUsageOutput struct {

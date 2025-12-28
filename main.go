@@ -42,7 +42,7 @@ func main() {
 	if _, err := models.OllamaQwen3(g, 14); err != nil {
 		log.Fatalf("Failed to get model: %v", err)
 	}
-	if _, err := models.GetOllamaDevstralSmall2(g); err != nil {
+	if _, err := models.OllamaDevstralSmall2(g); err != nil {
 		log.Fatalf("Failed to get model: %v", err)
 	}
 

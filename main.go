@@ -9,6 +9,7 @@ import (
 	"syscall"
 
 	"github.com/firebase/genkit/go/genkit"
+	oai "github.com/firebase/genkit/go/plugins/compat_oai"
 	"github.com/firebase/genkit/go/plugins/googlegenai"
 	"github.com/firebase/genkit/go/plugins/ollama"
 	"github.com/firebase/genkit/go/plugins/server"
@@ -27,10 +28,16 @@ func main() {
 		Timeout:       300,
 	}
 
+	or := &oai.OpenAICompatible{
+		APIKey:   os.Getenv("OPENROUTER_API_KEY"),
+		BaseURL:  "https://openrouter.ai/api/v1",
+		Provider: models.OpenrouterProvider,
+	}
+
 	g := genkit.Init(ctx,
 		genkit.WithPlugins(o, &googlegenai.GoogleAI{
 			APIKey: os.Getenv("GEMINI_API_KEY"),
-		}),
+		}, or),
 	)
 
 	if _, err := models.OllamaGptOss20b(g); err != nil {

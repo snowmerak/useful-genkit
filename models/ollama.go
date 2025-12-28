@@ -206,3 +206,43 @@ func GetOllamaQwen3Coder(g *genkit.Genkit, bits int) (ai.Model, error) {
 
 	return m, nil
 }
+
+func OllamaMinistral3o14B(g *genkit.Genkit) (ai.Model, error) {
+	p := genkit.LookupPlugin(g, ollamaProvider)
+	if p == nil {
+		return nil, fmt.Errorf("ollama plugin not found, make sure to initialize genkit with ollama plugin")
+	}
+
+	o, ok := p.(*ollama.Ollama)
+	if !ok {
+		return nil, fmt.Errorf("plugin is not of type ollama.Ollama")
+	}
+
+	return o.DefineModel(g, ollama.ModelDefinition{
+		Name: "ministral-3:14b",
+		Type: "chat",
+	}, &ai.ModelOptions{
+		Supports: &ai.ModelSupports{
+			Multiturn: true,
+		},
+	}), nil
+}
+
+func GetOllamaMinistral3o14B(g *genkit.Genkit) (ai.Model, error) {
+	p := genkit.LookupPlugin(g, ollamaProvider)
+	if p == nil {
+		return nil, fmt.Errorf("ollama plugin not found, make sure to initialize genkit with ollama plugin")
+	}
+
+	_, ok := p.(*ollama.Ollama)
+	if !ok {
+		return nil, fmt.Errorf("plugin is not of type ollama.Ollama")
+	}
+
+	m := genkit.LookupModel(g, fmt.Sprintf("%s/ministral-3:14b", ollamaProvider))
+	if m == nil {
+		return nil, fmt.Errorf("model ministral-3:14b not found, make sure to define it first")
+	}
+
+	return m, nil
+}

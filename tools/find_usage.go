@@ -66,6 +66,9 @@ rule:
 				Start struct {
 					Line int `json:"line"`
 				} `json:"start"`
+				End struct {
+					Line int `json:"line"`
+				} `json:"end"`
 			} `json:"range"`
 		}
 		var matches []SgMatch
@@ -81,7 +84,7 @@ rule:
 		// Format the output
 		var result string
 		for _, match := range matches {
-			result += fmt.Sprintf("File: %s (Line %d)\n```%s\n%s\n```\n\n", match.File, match.Range.Start.Line+1, input.Language, match.Text)
+			result += fmt.Sprintf("File: %s (Line %d:%d)\n```%s\n%s\n```\n\n", match.File, match.Range.Start.Line+1, match.Range.End.Line+1, input.Language, match.Text)
 		}
 
 		return FindUsageOutput{

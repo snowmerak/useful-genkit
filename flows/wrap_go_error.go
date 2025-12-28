@@ -67,7 +67,7 @@ func WrapGoErrorFlow(g *genkit.Genkit) {
 			}
 
 			// Use a model to generate the response
-			model, err := models.GetOllamaDevstralSmall2(g)
+			model, err := models.GetOllamaGptOss20b(g)
 			if err != nil {
 				return WrapGoErrorOutput{}, fmt.Errorf("failed to get model: %w", err)
 			}

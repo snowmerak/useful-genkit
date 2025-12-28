@@ -16,6 +16,7 @@ const FindUsageTool = "FindUsage"
 type FindUsageInput struct {
 	Query    string            `json:"query"`
 	Language language.Language `json:"language"`
+	BasePath string            `json:"base_path,omitempty"`
 }
 
 type FindUsageOutput struct {
@@ -51,7 +52,11 @@ rule:
 		}
 
 		// Run ast-grep
-		cmd := exec.Command("sg", "scan", "--json", "-r", tmpFile.Name())
+		args := []string{"scan", "--json", "-r", tmpFile.Name()}
+		if input.BasePath != "" {
+			args = append(args, input.BasePath)
+		}
+		cmd := exec.Command("sg", args...)
 		output, err := cmd.CombinedOutput()
 		if err != nil {
 			// If output is empty, it's a real error. If not, it might just be exit code 1 for no matches or similar (though sg usually returns 0).

@@ -16,6 +16,7 @@ const FindStructsTool = "FindStructs"
 type FindStructsInput struct {
 	StructName string            `json:"struct_name"`
 	Language   language.Language `json:"language"`
+	BasePath   string            `json:"base_path,omitempty"`
 }
 
 type FindStructsOutput struct {
@@ -69,7 +70,11 @@ rule:
 			return FindStructsOutput{}, fmt.Errorf("failed to close temp file: %w", err)
 		}
 
-		cmd := exec.Command("sg", "scan", "--rule", tmpFile.Name(), "--json")
+		args := []string{"scan", "--rule", tmpFile.Name(), "--json"}
+		if input.BasePath != "" {
+			args = append(args, input.BasePath)
+		}
+		cmd := exec.Command("sg", args...)
 		output, err := cmd.Output()
 		if err != nil {
 			if exitError, ok := err.(*exec.ExitError); ok {

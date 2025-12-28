@@ -35,7 +35,7 @@ func ListFiles(g *genkit.Genkit) ai.Tool {
 			return ListFilesOutput{}, fmt.Errorf("failed to read directory: %w", err)
 		}
 
-		var files []string
+		files := make([]string, 0, len(entries))
 		for _, entry := range entries {
 			name := entry.Name()
 			if entry.IsDir() {

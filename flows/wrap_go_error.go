@@ -67,7 +67,7 @@ func WrapGoErrorFlow(g *genkit.Genkit) {
 			}
 
 			// Use a model to generate the response
-			model, err := models.GetGoogleAI(g, models.GoogleAIGemini2o5FlashLite)
+			model, err := models.GetOllamaDevstralSmall2(g)
 			if err != nil {
 				return WrapGoErrorOutput{}, fmt.Errorf("failed to get model: %w", err)
 			}

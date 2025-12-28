@@ -61,7 +61,7 @@ func LogPrismFlow(g *genkit.Genkit) {
 			}
 
 			// Use a model to generate the response
-			model, err := models.GetGoogleAI(g, models.GoogleAIGemini2o5Flash)
+			model, err := models.GetOllamaDevstralSmall2(g)
 			if err != nil {
 				return LogPrismFlowOutput{}, fmt.Errorf("failed to get model: %w", err)
 			}

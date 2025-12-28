@@ -176,7 +176,7 @@ func OllamaQwen3Coder(g *genkit.Genkit, bits int) (ai.Model, error) {
 		return nil, fmt.Errorf("plugin is not of type ollama.Ollama")
 	}
 
-	modelName := fmt.Sprintf("qwen3-coder:%db", bits)
+	modelName := fmt.Sprintf("Nehc/qwen3-coder:%db", bits)
 	return o.DefineModel(g, ollama.ModelDefinition{
 		Name: modelName,
 		Type: "chat",
@@ -198,7 +198,7 @@ func GetOllamaQwen3Coder(g *genkit.Genkit, bits int) (ai.Model, error) {
 		return nil, fmt.Errorf("plugin is not of type ollama.Ollama")
 	}
 
-	modelName := fmt.Sprintf("%s/qwen3-coder:%db", ollamaProvider, bits)
+	modelName := fmt.Sprintf("%s/Nehc/qwen3-coder:%db", ollamaProvider, bits)
 	m := genkit.LookupModel(g, modelName)
 	if m == nil {
 		return nil, fmt.Errorf("model %s not found, make sure to define it first", modelName)

@@ -8,11 +8,12 @@ import (
 
 	"github.com/firebase/genkit/go/ai"
 	"github.com/firebase/genkit/go/genkit"
+	"github.com/snowmerak/useful-genkit/utils/language"
 )
 
 type FindDefinitionInput struct {
-	Query    string `json:"query"`
-	Language string `json:"language"`
+	Query    string            `json:"query"`
+	Language language.Language `json:"language"`
 }
 
 type FindDefinitionOutput struct {

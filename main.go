@@ -63,6 +63,7 @@ func main() {
 	}
 
 	_ = prompts.TranslationPrompt(g)
+	_ = prompts.WrapErrorPrompt(g)
 
 	_ = tools.GetCurrentTime(g)
 	_ = tools.FindUsage(g)
@@ -75,8 +76,11 @@ func main() {
 	_ = tools.DeleteDirectory(g)
 	_ = tools.GetCurrentDirectory(g)
 	_ = tools.WalkDirectory(g)
+	_ = tools.ReadFile(g)
+	_ = tools.WriteFile(g)
 
 	flows.TranslationFlow(g)
+	flows.WrapGoErrorFlow(g)
 
 	mux := http.NewServeMux()
 

@@ -25,7 +25,7 @@ func LogPrismPrompt(g *genkit.Genkit) ai.Prompt {
 - Rust: tracing crate
 
 The golang code below are examples, but you can adapt the concepts to other languages as well.  
-If you can create new files for logging utilities, do so and show the full code of those files as well.
+If you can create new files for logging utilities. Find the log library first, and create the necessary logging utility files under the "utils" or "common" directory.
 
 ## Prism
 

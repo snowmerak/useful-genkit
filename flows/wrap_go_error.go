@@ -44,10 +44,6 @@ func WrapGoErrorFlow(g *genkit.Genkit) {
 
 		// 2. Process each Go file
 		for _, file := range files {
-			if !strings.HasSuffix(file, ".go") {
-				continue
-			}
-
 			// Read file content (Inline implementation)
 			contentBytes, err := os.ReadFile(file)
 			if err != nil {

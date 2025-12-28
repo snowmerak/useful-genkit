@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
-	"strings"
 
 	"github.com/firebase/genkit/go/ai"
 	"github.com/firebase/genkit/go/genkit"
@@ -44,10 +43,6 @@ func LogPrismFlow(g *genkit.Genkit) {
 
 		// 2. Process each Go file
 		for _, file := range files {
-			if !strings.HasSuffix(file, ".go") {
-				continue
-			}
-
 			// Read file content
 			contentBytes, err := os.ReadFile(file)
 			if err != nil {

@@ -9,7 +9,6 @@ import (
 
 	"github.com/firebase/genkit/go/ai"
 	"github.com/firebase/genkit/go/genkit"
-	"github.com/snowmerak/useful-genkit/logic"
 	"github.com/snowmerak/useful-genkit/models"
 	"github.com/snowmerak/useful-genkit/prompts"
 	"github.com/snowmerak/useful-genkit/tools"
@@ -62,7 +61,7 @@ func LogPrismFlow(g *genkit.Genkit) {
 			}
 
 			// Use a model to generate the response
-			model, err := models.GetGoogleAI(g, models.GoogleAIGemini2o5FlashLite)
+			model, err := models.GetGoogleAI(g, models.GoogleAIGemini2o5Flash)
 			if err != nil {
 				return LogPrismFlowOutput{}, fmt.Errorf("failed to get model: %w", err)
 			}
@@ -116,11 +115,11 @@ func LogPrismFlow(g *genkit.Genkit) {
 				toolRefs = append(toolRefs, walkDirectoryTool)
 			}
 
-			result, err := logic.GenerateDataWithTool[prompts.LogPrismOutput](
+			result, _, err := genkit.GenerateData[prompts.LogPrismOutput](
 				ctx,
 				g,
 				ai.WithTools(toolRefs...),
-				req.Messages,
+				ai.WithMessages(req.Messages...),
 				ai.WithModel(model),
 			)
 			if err != nil {

@@ -42,6 +42,9 @@ func main() {
 	if _, err := models.OllamaQwen3(g, 14); err != nil {
 		log.Fatalf("Failed to get model: %v", err)
 	}
+	if _, err := models.GetOllamaDevstralSmall2(g); err != nil {
+		log.Fatalf("Failed to get model: %v", err)
+	}
 
 	if _, err := models.GoogleAI(g, models.GoogleAIGemma3o4b); err != nil {
 		log.Fatalf("Failed to get model: %v", err)

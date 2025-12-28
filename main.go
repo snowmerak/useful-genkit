@@ -72,6 +72,13 @@ func main() {
 		log.Fatalf("Failed to get model: %v", err)
 	}
 
+	if _, err := models.OpenRouterDevstral2512Free(g); err != nil {
+		log.Fatalf("Failed to get model: %v", err)
+	}
+	if _, err := models.OpenRouterQwen3CoderFree(g); err != nil {
+		log.Fatalf("Failed to get model: %v", err)
+	}
+
 	_ = prompts.TranslationPrompt(g)
 	_ = prompts.WrapErrorPrompt(g)
 	_ = prompts.LogPrismPrompt(g)

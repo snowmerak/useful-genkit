@@ -68,7 +68,9 @@ func LogPrismFlow(g *genkit.Genkit) {
 			}
 
 			req, err := prompt.Render(ctx, prompts.LogPrismInput{
-				Code: content,
+				Code:     content,
+				BasePath: input.Path,
+				FilePath: file,
 			})
 			if err != nil {
 				return LogPrismFlowOutput{}, fmt.Errorf("failed to render prompt: %w", err)

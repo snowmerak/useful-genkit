@@ -8,7 +8,9 @@ import (
 const LogPrismPromptName = "LogPrismPrompt"
 
 type LogPrismInput struct {
-	Code string `json:"code"`
+	Code     string `json:"code"`
+	BasePath string `json:"base_path"`
+	FilePath string `json:"file_path"`
 }
 
 type LogPrismOutput struct {
@@ -17,12 +19,12 @@ type LogPrismOutput struct {
 
 func LogPrismPrompt(g *genkit.Genkit) ai.Prompt {
 	return genkit.DefinePrompt(g, LogPrismPromptName, ai.WithPrompt(`You are a Devops expert. Your task is to add "Prism" style logging (Span and State) to the given code based on the concept below. You can use some log libraries:
-	- Go: zerolog(github.com/rs/zerolog) or slog(standard library)
-	- Python: structlog
-	- TypeScript/JavaScript: logtape
-	- Rust: tracing crate
+- Go: zerolog(github.com/rs/zerolog) or slog(standard library)
+- Python: structlog
+- TypeScript/JavaScript: logtape
+- Rust: tracing crate
 
-	The golang code below are examples, but you can adapt the concepts to other languages as well.
+The golang code below are examples, but you can adapt the concepts to other languages as well.
 
 ## Prism
 
@@ -127,11 +129,15 @@ Key features:
     *   Log data snapshots with "StateLogger.Snapshot".
 4.  **Context**: Ensure "context.Context" is used to propagate RequestID.
 
+Base Path: {{base_path}}
+File Path: {{file_path}}
+
 ## Input Code
 
 {{code}}
 
-Return the FULL source code with logging added. Do not omit any parts of the code.`, ai.WithInputType(LogPrismInput{}), ai.WithConfig(&ai.GenerationCommonConfig{
+Return the FULL source code with logging added. Do not omit any parts of the code.
+`, ai.WithInputType(LogPrismInput{}), ai.WithConfig(&ai.GenerationCommonConfig{
 		Temperature: 0.1,
 	})))
 }
